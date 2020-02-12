@@ -3,7 +3,6 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import _ from 'lodash';
 import get from 'lodash/get'
 import { Card, Skeleton, Input } from 'antd';
 import styled from 'styled-components';
@@ -62,36 +61,27 @@ export function HomeContainer({
 
   useEffect(() => {
     const loaded = _.get(reposData, 'items', null) || reposError;
+    
     if (loading && loaded) {
+    
       setLoading(false);
     }
   });
 
   const handleOnChange = rName => {
-    if (rName) {
+    if (rName) 
+    {
       dipatchGithubRepos(rName);
       setLoading(true);
     }
   };
   const debouncedHandleOnChange = _.debounce(handleOnChange, 200);
 
-  const activateLasers = () =>{
-    //console.log('hello');
-    return (
-    <Search
-          data-testid="search-bar"
-          defaultValue={repoName}
-          type="text"
-          onSearch={searchText => {
-            // console.log('!313232'+ searchText);
-            // console.log('repo'+repoName);
-            debouncedHandleOnChange(searchText)}}/>)
-
-  }
-
   const renderRepoList = () => {
     const items = _.get(reposData, 'items', []);
+
     const totalCount = _.get(reposData, 'totalCount', 0);
+    
     return (
       (items.length !== 0 || loading) && (
         <CustomCard>
@@ -106,6 +96,8 @@ export function HomeContainer({
                 <T id="matching_repos" values={{totalCount }} />
               </div>
             )}
+
+              
             {/* {items.map((item, index) => (
               <CustomCard key={index}>
                 <div>Repository Name: {item.name}</div>
@@ -138,14 +130,13 @@ export function HomeContainer({
           color={reposError ? 'red' : 'grey'}
           title={intl.formatMessage({ id: 'repo_list' })}
         >
-  
+        
           <T id={repoError} />
   
         </CustomCard>
       )
     );
   };
-
   const refreshPage = () => {
     history.push('stories');
     window.location.reload();
@@ -154,23 +145,7 @@ export function HomeContainer({
     <Container>
       <RightContent>
         <Clickable textId="stories" onClick={refreshPage} />
-
       </RightContent>
-{/* 
-      <CustomCard
-      title={intl.formatMessage({ id: 'repo_search' })}
-
-        maxwidth={500}>
-        <Text marginBottom={10} id="get_repo_details" />
-        <Search
-          data-testid="search-bar"
-          defaultValue={repoName}
-          type="text"
-          onChange={evt => debouncedHandleOnChange(evt.target.value)}
-
-          onSearch={searchText => debouncedHandleOnChange(searchText)}
-        />
-      </CustomCard> */}
 
       <CustomCard
         title={intl.formatMessage({ id: 'repo_search' })}
@@ -181,13 +156,13 @@ export function HomeContainer({
           defaultValue={repoName}
           type="text"
           onChange={evt => debouncedHandleOnChange(evt.target.value)}
-           onSearch={searchText => {
-            
-            debouncedHandleOnChange(searchText)}}
-        />
+           onSearch={searchText =>{
+            debouncedHandleOnChange(searchText)}}/>
+
 <button onClick={()=>debouncedHandleOnChange(repoName)}>
 I'm Felling Lucky
 </button>
+
 </CustomCard>
       {renderRepoList()}
       {renderErrorState()}
@@ -237,5 +212,4 @@ export default compose(
   memo,
   withRouter
 )(HomeContainer);
-
 export const HomeContainerTest = compose(injectIntl)(HomeContainer);
