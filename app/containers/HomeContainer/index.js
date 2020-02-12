@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import { createStructuredSelector } from 'reselect';
 import { compose } from 'redux';
-import get from 'lodash/get'
+import get from 'lodash/get';
 import { Card, Skeleton, Input } from 'antd';
 import styled from 'styled-components';
 import { FormattedMessage as T, injectIntl } from 'react-intl';
@@ -61,16 +61,14 @@ export function HomeContainer({
 
   useEffect(() => {
     const loaded = _.get(reposData, 'items', null) || reposError;
-    
+
     if (loading && loaded) {
-    
       setLoading(false);
     }
   });
 
   const handleOnChange = rName => {
-    if (rName) 
-    {
+    if (rName) {
       dipatchGithubRepos(rName);
       setLoading(true);
     }
@@ -81,7 +79,7 @@ export function HomeContainer({
     const items = _.get(reposData, 'items', []);
 
     const totalCount = _.get(reposData, 'totalCount', 0);
-    
+
     return (
       (items.length !== 0 || loading) && (
         <CustomCard>
@@ -93,15 +91,19 @@ export function HomeContainer({
             )}
             {totalCount !== 0 && (
               <div>
-                <T id="matching_repos" values={{totalCount }} />
+                <T id="matching_repos" values={{ totalCount }} />
               </div>
             )}
 
-              {<CustomCard key={1}>
-                <div>Repository Name: {get(items,'0.name','')}</div>
-                <div>Repository Full Name: {get(items,'0.fullName','')}</div>
-                <div>Repository stars: {get(items,'0.stargazersCount', '')}</div>
-              </CustomCard>}
+            {
+              <CustomCard key={1}>
+                <div>Repository Name: {get(items, '0.name', '')}</div>
+                <div>Repository Full Name: {get(items, '0.fullName', '')}</div>
+                <div>
+                  Repository stars: {get(items, '0.stargazersCount', '')}
+                </div>
+              </CustomCard>
+            }
           </Skeleton>
         </CustomCard>
       )
@@ -121,9 +123,7 @@ export function HomeContainer({
           color={reposError ? 'red' : 'grey'}
           title={intl.formatMessage({ id: 'repo_list' })}
         >
-        
           <T id={repoError} />
-  
         </CustomCard>
       )
     );
@@ -140,21 +140,23 @@ export function HomeContainer({
 
       <CustomCard
         title={intl.formatMessage({ id: 'repo_search' })}
-        maxwidth={500} >
+        maxwidth={500}
+      >
         <Text marginBottom={10} id="get_repo_details" />
         <Search
           data-testid="search-bar"
           defaultValue={repoName}
           type="text"
           onChange={evt => debouncedHandleOnChange(evt.target.value)}
-           onSearch={searchText =>{
-            debouncedHandleOnChange(searchText)}}/>
+          onSearch={searchText => {
+            debouncedHandleOnChange(searchText);
+          }}
+        />
 
-<button onClick={()=>debouncedHandleOnChange(repoName)}>
-I'm Felling Lucky
-</button>
-
-</CustomCard>
+        <button onClick={() => debouncedHandleOnChange(repoName)}>
+          I'm Felling Lucky
+        </button>
+      </CustomCard>
       {renderRepoList()}
       {renderErrorState()}
     </Container>
@@ -176,9 +178,7 @@ HomeContainer.propTypes = {
   history: PropTypes.object
 };
 
-
-const mapStateToProps = createStructuredSelector
-({
+const mapStateToProps = createStructuredSelector({
   homeContainer: selectHomeContainer(),
   reposData: selectReposData(),
   reposError: selectReposError(),
