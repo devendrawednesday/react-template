@@ -21,7 +21,7 @@ import {
 import reducer, { homeContainerCreators } from './reducer';
 import saga from './saga';
 
-import { template } from '@babel/core';
+
 
 const { Search } = Input;
 
