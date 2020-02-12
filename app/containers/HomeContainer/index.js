@@ -97,15 +97,6 @@ export function HomeContainer({
               </div>
             )}
 
-              
-            {/* {items.map((item, index) => (
-              <CustomCard key={index}>
-                <div>Repository Name: {item.name}</div>
-                <div>Repository Full Name: {item.fullName}</div>
-                <div>Repository stars: {item.stargazersCount}</div>
-              </CustomCard>
-            ))} */}
-
               {<CustomCard key={1}>
                 <div>Repository Name: {get(items,'0.name','')}</div>
                 <div>Repository Full Name: {get(items,'0.fullName','')}</div>
